@@ -4,7 +4,7 @@ from rest_framework import permissions
 
 
 class IsOwner(permissions.BasePermission):
-    message  = 'You must be the owner of this content to change.'
+    message  = 'You must be the owner of this content.'
     """
     Object-level permission to only allow owners of an object to edit it.
     Assumes the model instance has an `owner` attribute.
@@ -18,5 +18,5 @@ class IsStaffUser(permissions.BasePermission):
     Allows access only to admin users.
     """
 
-    def has_permission(self, request, view, obj):
-        return obj.user.is_staff
+    def has_permission(self, request, view):
+        return request.user.is_staff

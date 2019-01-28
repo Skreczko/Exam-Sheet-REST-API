@@ -15,8 +15,6 @@ class AnswerListAPIView(generics.ListCreateAPIView):
 
 	def get_queryset(self, *args, **kwargs):
 		request = self.request
-		print(request.user)
-		print('loool')
 		return Answer.objects.all()
 
 
@@ -40,7 +38,7 @@ class AnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, gen
 		return self.destroy(request, *args, **kwargs)
 
 
-class UserAnswerListAPIView(generics.ListCreateAPIView):
+class UserAnswerListAPIView(generics.ListAPIView):
 	permission_classes 		= [IsOwner]
 	# authentication_classes 	= [SessionAuthentication]
 	queryset = UserAnswer.objects.all()

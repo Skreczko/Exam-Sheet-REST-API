@@ -20,4 +20,7 @@ class UserAnswer(models.Model):
 	question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='related_user_answer')
 	user_answer_id = models.SmallIntegerField()
 
+@property
+def owner(self):
+	return self.user
 
