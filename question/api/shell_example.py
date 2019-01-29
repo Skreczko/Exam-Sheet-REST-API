@@ -22,18 +22,18 @@ data = {
 }
 
 data2 = {
-	'username': 'Skreczko',
-	'password': 'Lol123',
+	'username': 'JulitaTest',
+	'password': 'Lol1231',
 
 }
 
 #
-r = requests.post(AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
+# r = requests.post(AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
 r2 = requests.post(AUTH_ENDPOINT, data=json.dumps(data2), headers=headers)
-token_random = r.json()['token']
+# token_random = r.json()['token']
 token_skr = r2.json()['token']
 # token = answer['token']
-
+print(r2.json())
 
 
 headers = {
@@ -41,12 +41,9 @@ headers = {
 	"Authorization": 'JWT ' + token_skr,
 }
 
-data2 = {
-	'username': 'Skreczko',
-	'password': 'Lol123',
-}
 
-r = requests.get('http://127.0.0.1:8000/api/answer/correct/', headers=headers)
+#
+r = requests.get('http://127.0.0.1:8000/api/answer/here/JulitaTest/', headers=headers)
 answer = r.json()
 print(answer)
 

@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 from answer.models import Answer, UserAnswer
-from .serializers import AnswerSerializer, UserAnswerSerializer
+from question.models import Question
+from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer
 from .permissions import IsOwner, IsStaffUser
 
 
@@ -38,11 +39,11 @@ class AnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, gen
 		return self.destroy(request, *args, **kwargs)
 
 
-class UserAnswerListAPIView(generics.ListAPIView):
+class UserAnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [IsOwner]
 	# authentication_classes 	= [SessionAuthentication]
 	queryset = UserAnswer.objects.all()
-	serializer_class = AnswerSerializer
+	serializer_class = UserAnswerSerializer
 
 	def get_queryset(self, *args, **kwargs):
 		username = self.kwargs.get('user', None)
@@ -52,6 +53,21 @@ class UserAnswerListAPIView(generics.ListAPIView):
 
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
+
+class UserLoggedAnswerListAPIView(generics.ListAPIView):
+	permission_classes 		= [IsOwner]
+	# authentication_classes 	= [SessionAuthentication]
+	queryset = Question.objects.all()
+	serializer_class = UserLoggedAnswerSerializer
+
+	# def get_queryset(self, *args, **kwargs):
+	# 	username = self.kwargs.get('user', None)
+	# 	if username is not None:
+	# 		return UserAnswer.objects.filter(user__username=username).order_by('question')
+	# 	return UserAnswer.objects.none()
+	#
+	# def perform_create(self, serializer):
+	# 	serializer.save(user=self.request.user)
 
 
 class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):

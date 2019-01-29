@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from question.models import Question
 
+
 class QuestionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Question
@@ -19,3 +20,16 @@ class QuestionSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError("Please add '?' to your question.")
 		else:
 			return value
+
+
+class QuestionReadOnlySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Question
+		fields = [
+			'id',
+			'rank',
+			'question',
+			'avaible_answers'
+		]
+
+

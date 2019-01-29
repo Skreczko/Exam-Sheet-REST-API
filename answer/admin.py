@@ -3,7 +3,7 @@ from .models import Answer, UserAnswer
 # Register your models here.
 
 class AnswerAdmin(admin.ModelAdmin):
-	list_display = ['id','question', 'question_answer', 'is_true']
+	list_display = ['id','question', 'answer_question', 'is_true']
 	list_filter = ['question']
 	list_per_page = 50
 
@@ -20,7 +20,7 @@ class AnswerAdmin(admin.ModelAdmin):
 
 
 class UserAnswerAdmin(admin.ModelAdmin):
-	list_display = ['user_id', 'user_name', 'question', 'user_answer_id', ]
+	list_display = ['id','user_id', 'user_name', 'question', 'user_answer_id', ]
 	list_filter =['user_id']
 	list_per_page = 50
 

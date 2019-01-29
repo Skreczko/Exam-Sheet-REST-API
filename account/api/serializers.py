@@ -13,14 +13,14 @@ jwt_response_payload_handler    = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 
 
-# class UserSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = MyUser
-# 		fields = [
-# 			'id',
-# 			'username',
-# 			'email'
-# 		]
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = MyUser
+		fields = [
+			'id',
+			'username',
+			'email'
+		]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
