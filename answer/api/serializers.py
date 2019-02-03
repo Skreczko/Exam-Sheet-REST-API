@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 from django.conf import settings
 from answer.models import Answer, UserAnswer
 from question.api.serializers import QuestionReadOnlySerializer
@@ -19,12 +20,26 @@ class AnswerSerializer(serializers.ModelSerializer):
 			'is_correct',
 		]
 
+class AnswerForUserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Answer
+		fields = [
+			'id',
+			# 'question',
+			'answer_question',
+		]
+
+	def get_uri(self,obj):
+		return "/api/"
 
 class UserAnswerSerializer(serializers.ModelSerializer):
 	user_answer_id = serializers.IntegerField()
-	question = QuestionReadOnlySerializer(many=False)
-	user = UserSerializer(many=False)
+	# question = QuestionReadOnlySerializer(many=False)
+	# question_for_validate=serializers.PrimaryKeyRelatedField(source=question, read_only=True)
+	user = UserSerializer(many=False, read_only=True)
+	# question = serializers.SerializerMethodField(read_only=True)
 	avaible_answer = serializers.SerializerMethodField(read_only=True)
+
 
 	class Meta:
 		model = UserAnswer
@@ -34,11 +49,22 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 			'question',
 			'avaible_answer',
 			'user_answer_id',
+
 		]
+
+		read_only_fields = ['user', 'avaible_answer',]
+
+	def get_question(self, obj):
+		return json.dumps(obj.question).data
+
+
+
 	def validate(self, data):
 		question = data.get('question', None)
+		# question = data.get('question', None)
 		user_answer_id = data.get('user_answer_id', None)
-		avaible_answers = question.related_user_answer.all()
+		avaible_answers = Answer.objects.filter(question=question)
+		print(avaible_answers)
 		answ_ids=[]
 		for x in avaible_answers:
 			answ_ids.append(x.id)
@@ -51,7 +77,7 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 	def get_avaible_answer(self, obj):
 		question = obj.question
 		qs = Answer.objects.filter(question=question)
-		return QuestionReadOnlySerializer(question, many=False).data
+		return AnswerForUserSerializer(qs, many=True).data
 
 
 
@@ -68,30 +94,29 @@ http://127.0.0.1:8000/api/answer/list/
 
 class UserChosedAnswerSerializer(serializers.ModelSerializer):
 	user_answer_id = serializers.IntegerField()
-	user = UserSerializer(User, many=False)
+	user = UserSerializer(User, many=False, read_only=True)
+	uri = serializers.SerializerMethodField(read_only=True)
 	class Meta:
 		model = UserAnswer
 		fields = [
 			'id',
-			'user',
+			'uri',
 			'user_answer_id',
+			'user',
 		]
 
-class AnswerForUserSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Answer
-		fields = [
-			'id',
-			'question',
-			'answer_question',
-		]
+	def get_uri(self, obj):
+		request = self.context.get('request')
+		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
 
-	def get_uri(self,obj):
-		return "/api/"
+
+
 
 class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 	user_answer = serializers.SerializerMethodField(read_only=True)
 	avaible_answers = serializers.SerializerMethodField(read_only=True)
+	# uri_uri_question = serializers.SerializerMethodField(read_only=True)
+	# uri_user_answer = serializers.SerializerMethodField(read_only=True)
 
 	class Meta:
 		model = Question
@@ -100,9 +125,18 @@ class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 			'rank',
 			'question',
 			'avaible_answers',
+			# 'uri_user_answer',
 			'user_answer',
-
 		]
+
+
+	def get_uri_question(self, obj):
+		request = self.context.get('request')
+		return reverse('question:detail', kwargs={'id': obj.id}, request=request)
+
+	def get_uri_user_answer(self, obj):
+		request = self.context.get('request')
+		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
 
 	def get_avaible_answers(self, obj):
 		qs = obj.related_answer.all()
@@ -113,6 +147,9 @@ class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 		user = request.user
 		qs = UserAnswer.objects.filter(user=user, question=obj)
 		return UserChosedAnswerSerializer(qs, many=True).data
+
+
+
 
 
 

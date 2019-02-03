@@ -1,12 +1,17 @@
 from django.urls import path
-from .views import AnswerListAPIView, AnswerDetailAPIView, UserAnswerListAPIView, UserAnswerDetailAPIView, UserLoggedAnswerListAPIView
+from .views import AnswerListAPIView, AnswerDetailAPIView, UserAnswerListAPIView, UserAnswerDetailAPIView, UserLoggedAnswerListAPIView, UserAnsweAddAPIView
+
+
+app_name = 'answer'
 
 urlpatterns = [
-    path('correct/', AnswerListAPIView.as_view()), # http://127.0.0.1:8000/api/answer/correct/
-    path('correct/<id>/', AnswerDetailAPIView.as_view()),
+    path('admin/', AnswerListAPIView.as_view()), # http://127.0.0.1:8000/api/answer/correct/
+    path('admin/<id>/', AnswerDetailAPIView.as_view()),
 
-    path('list/', UserLoggedAnswerListAPIView.as_view()),  # http://127.0.0.1:8000/api/answer/by_shell_second8/
-    path('<user>/', UserAnswerListAPIView.as_view()),   # http://127.0.0.1:8000/api/answer/by_shell_second8/
-    path('<user>/<id>/', UserAnswerDetailAPIView.as_view()),
+    path('summary/', UserLoggedAnswerListAPIView.as_view()),  # http://127.0.0.1:8000/api/answer/by_shell_second8/
+    path('summary/<id>/', UserAnswerDetailAPIView.as_view(), name='detail'),
+    path('add/', UserAnsweAddAPIView.as_view(), name='add'),
+    # path('<user>/', UserAnswerListAPIView.as_view()),   # http://127.0.0.1:8000/api/answer/by_shell_second8/
+
 
 ]
