@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AnswerListAPIView, AnswerDetailAPIView, UserAnswerListAPIView, UserAnswerDetailAPIView, UserLoggedAnswerListAPIView, UserAnsweAddAPIView
+from .views import AnswerListAPIView, AnswerDetailAPIView, UserAnswerListAPIView, UserAnswerDetailAPIView, UserLoggedAnswerListAPIView
 
 
 app_name = 'answer'
@@ -10,7 +10,6 @@ urlpatterns = [
 
     path('summary/', UserLoggedAnswerListAPIView.as_view()),  # http://127.0.0.1:8000/api/answer/by_shell_second8/
     path('summary/<id>/', UserAnswerDetailAPIView.as_view(), name='detail'),
-    path('add/', UserAnsweAddAPIView.as_view(), name='add'),
     # path('<user>/', UserAnswerListAPIView.as_view()),   # http://127.0.0.1:8000/api/answer/by_shell_second8/
 
 
