@@ -54,20 +54,40 @@ class UserAnswerListAPIView(generics.ListCreateAPIView):
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 
-class UserLoggedAnswerListAPIView(generics.ListAPIView):
+class UserLoggedAnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [IsOwner]
 	# authentication_classes 	= [SessionAuthentication]
 	queryset = Question.objects.all()
 	serializer_class = UserLoggedAnswerSerializer
 
-	# def get_queryset(self, *args, **kwargs):
-	# 	username = self.kwargs.get('user', None)
-	# 	if username is not None:
-	# 		return UserAnswer.objects.filter(user__username=username).order_by('question')
-	# 	return UserAnswer.objects.none()
-	#
-	# def perform_create(self, serializer):
-	# 	serializer.save(user=self.request.user)
+
+
+# from django.contrib.auth import get_user_model
+# from rest_framework.views import APIView
+# from rest_framework import status
+#
+# class UserLoggedAnswerListAPIView(APIView):
+# 	permission_classes 		= [IsOwner]
+# 	serializer_class = UserAnswerSerializer
+#
+# 	def get(self, request, format=None):
+# 		user =get_user_model()
+# 		question = Question.objects.all()
+# 		serializer=UserLoggedAnswerSerializer(question, many=True)
+# 		return Response(serializer.data)
+#
+# 	def post(self, request, format=None):
+# 		serializer = UserAnswerSerializer(data=request.data)
+# 		print(serializer.is_valid())
+# 		if serializer.is_valid():
+# 			obj = serializer.save()
+#
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+# 	def perform_create(self, serializer):
+# 		serializer.save(user=self.request.user)
+
 
 
 class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
@@ -82,7 +102,7 @@ class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 	def put(self, request, *args, **kwargs):
 		return self.update(request, *args, **kwargs)
 
-	#
+
 	# def post(self, request, *args, **kwargs):
 	# 	return self.create(request, *args, **kwargs)
 

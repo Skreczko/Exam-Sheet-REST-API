@@ -5,9 +5,10 @@ from rest_framework.authentication import SessionAuthentication
 from question.models import Question
 from .serializers import QuestionSerializer
 from answer.api.serializers import UserAnswerSerializer
+from answer.api.permissions import IsStaffUser
 
 class QuestionListAPIView(generics.ListCreateAPIView):
-	permission_classes 		= [permissions.IsAuthenticatedOrReadOnly]
+	permission_classes 		= [IsStaffUser]
 	# authentication_classes 	= [SessionAuthentication]
 	queryset 				= Question.objects.all()
 	serializer_class 		= QuestionSerializer
@@ -34,8 +35,8 @@ class QuestionListAPIView(generics.ListCreateAPIView):
 # 		serializer.save(user=self.request.user)
 
 class QuestionDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
-	permission_classes = []
-	authentication_classes = []
+	permission_classes = [IsStaffUser]
+	#authentication_classes = []
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 	lookup_field = 'id'

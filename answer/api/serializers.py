@@ -34,10 +34,8 @@ class AnswerForUserSerializer(serializers.ModelSerializer):
 
 class UserAnswerSerializer(serializers.ModelSerializer):
 	user_answer_id = serializers.IntegerField()
-	# question = QuestionReadOnlySerializer(many=False)
-	# question_for_validate=serializers.PrimaryKeyRelatedField(source=question, read_only=True)
+	# question = serializers.StringRelatedField(many=False)
 	user = UserSerializer(many=False, read_only=True)
-	# question = serializers.SerializerMethodField(read_only=True)
 	avaible_answer = serializers.SerializerMethodField(read_only=True)
 
 
@@ -53,10 +51,6 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 		]
 
 		read_only_fields = ['user', 'avaible_answer',]
-
-	def get_question(self, obj):
-		return json.dumps(obj.question).data
-
 
 
 	def validate(self, data):
@@ -92,10 +86,11 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 http://127.0.0.1:8000/api/answer/list/
 """
 
-class UserChosedAnswerSerializer(serializers.ModelSerializer):
+class UserChosedAnswerSerializer(serializers.HyperlinkedModelSerializer):
 	user_answer_id = serializers.IntegerField()
 	user = UserSerializer(User, many=False, read_only=True)
-	uri = serializers.SerializerMethodField(read_only=True)
+	uri = serializers.HyperlinkedIdentityField(view_name='answer:detail', read_only=True, lookup_field='id')
+
 	class Meta:
 		model = UserAnswer
 		fields = [
@@ -105,7 +100,7 @@ class UserChosedAnswerSerializer(serializers.ModelSerializer):
 			'user',
 		]
 
-	def get_uri(self, obj):
+	def get_url(self, obj):
 		request = self.context.get('request')
 		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
 
@@ -113,10 +108,12 @@ class UserChosedAnswerSerializer(serializers.ModelSerializer):
 
 
 class UserLoggedAnswerSerializer(serializers.ModelSerializer):
-	user_answer = serializers.SerializerMethodField(read_only=True)
+	# uri_question = serializers.SerializerMethodField(read_only=True)
+
 	avaible_answers = serializers.SerializerMethodField(read_only=True)
-	# uri_uri_question = serializers.SerializerMethodField(read_only=True)
-	# uri_user_answer = serializers.SerializerMethodField(read_only=True)
+	user_answer = serializers.SerializerMethodField(read_only=True)
+
+
 
 	class Meta:
 		model = Question
@@ -125,28 +122,36 @@ class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 			'rank',
 			'question',
 			'avaible_answers',
-			# 'uri_user_answer',
 			'user_answer',
 		]
-
-
-	def get_uri_question(self, obj):
-		request = self.context.get('request')
-		return reverse('question:detail', kwargs={'id': obj.id}, request=request)
-
-	def get_uri_user_answer(self, obj):
-		request = self.context.get('request')
-		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
+#
+# """
+# to dodamy do admina jak cos
+# 	def get_uri_question(self, obj):
+# 		request = self.context.get('request')
+# 		return reverse('question:detail', kwargs={'id': obj.id}, request=request)
+#
+# 	def get_uri_user_answer(self, obj):
+# 		request = self.context.get('request')
+# 		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
+#
+# """
 
 	def get_avaible_answers(self, obj):
 		qs = obj.related_answer.all()
 		return AnswerForUserSerializer(qs, many=True).data
 
+	# def get_user_answer(self, obj, ):
+	# 	request = self.context.get('request')
+	# 	qs = UserAnswer.objects.filter(question=obj,)
+	# 	return UserChosedAnswerSerializer(qs, many=True, context={'request': request}).data
+
 	def get_user_answer(self, obj, ):
 		request = self.context.get('request')
 		user = request.user
 		qs = UserAnswer.objects.filter(user=user, question=obj)
-		return UserChosedAnswerSerializer(qs, many=True).data
+		return UserChosedAnswerSerializer(qs, many=True, context={'request': request}).data
+
 
 
 
