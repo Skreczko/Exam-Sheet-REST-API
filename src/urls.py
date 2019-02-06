@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
-
+from answer.api.views import UserListAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/question/', include('question.api.urls', namespace='api-question')),
     path('api/answer/', include('answer.api.urls', namespace ='api-answer')),
     path('api/auth/', include('account.api.urls', namespace='api-account')),
+
+    path('api/grades/', UserListAPIView.as_view()),
 
 ]

@@ -8,3 +8,10 @@ class IsAnonymous(permissions.BasePermission):
 		print(request.user)
 		return not request.user.is_authenticated
 
+class IsStaffUser(permissions.BasePermission):
+    """
+    Allows access only to admin users.
+    """
+
+    def has_permission(self, request, view):
+        return request.user.is_staff

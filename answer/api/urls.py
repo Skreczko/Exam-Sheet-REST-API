@@ -5,8 +5,8 @@ from .views import AnswerListAPIView, AnswerDetailAPIView, UserAnswerListAPIView
 app_name = 'answer'
 
 urlpatterns = [
-    path('admin/', AnswerListAPIView.as_view()), # http://127.0.0.1:8000/api/answer/correct/
-    path('admin/<id>/', AnswerDetailAPIView.as_view()),
+    path('admin/', AnswerListAPIView.as_view()), # http://127.0.0.1:8000/api/answer/admin/
+    path('admin/<id>/', AnswerDetailAPIView.as_view(), name='admin-detail'),
 
     path('summary/', UserLoggedAnswerListAPIView.as_view()),  # http://127.0.0.1:8000/api/answer/by_shell_second8/
     path('summary/<id>/', UserAnswerDetailAPIView.as_view(), name='detail'),

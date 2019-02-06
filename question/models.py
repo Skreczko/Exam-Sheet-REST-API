@@ -15,4 +15,10 @@ class Question(models.Model):
 	def __str__(self):
 		return str(self.question)
 
+	def total_weighting(self):
+		total = 0
+		questions = Question.objects.all()
+		for item in questions:
+			total += item.rank
+		return total
 

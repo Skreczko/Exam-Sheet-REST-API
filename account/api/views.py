@@ -4,10 +4,10 @@ from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import UserLoginSerializer, UserRegisterSerializer
+from account.models import MyUser
 
 
-
-from .permissions import IsAnonymous
+from .permissions import IsAnonymous, IsStaffUser
 # from .serializers import UserRegisterSerializer
 from rest_framework_jwt.settings import api_settings
 
