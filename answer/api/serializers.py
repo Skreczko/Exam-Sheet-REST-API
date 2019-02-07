@@ -118,6 +118,22 @@ class UserChosedAnswerSerializer(serializers.HyperlinkedModelSerializer):
 		return reverse('answer:detail', kwargs={'id': obj.id}, request=request)
 
 
+class UserChosedAnswer2Serializer(serializers.HyperlinkedModelSerializer):
+	user_answer_id = serializers.IntegerField()
+	is_correct = serializers.SerializerMethodField(read_only=True)
+
+
+	class Meta:
+		model = UserAnswer
+		fields = [
+			'id',
+			'user_answer_id',
+			'is_correct',
+		]
+
+	def get_is_correct(self,obj):
+		return Answer.objects.get(id=obj.user_answer_id).is_correct
+
 
 
 class UserLoggedAnswerSerializer(serializers.ModelSerializer):
@@ -147,6 +163,30 @@ class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 			qs = UserAnswer.objects.filter(user=user, question=obj)
 		return UserChosedAnswerSerializer(qs, many=True, context={'request': request}).data
 
+class UserLoggedAnswer2Serializer(serializers.ModelSerializer):
+	avaible_answers = serializers.SerializerMethodField(read_only=True)
+	user_answer = serializers.SerializerMethodField(read_only=True)
+
+	class Meta:
+		model = Question
+		fields = [
+			'id',
+			'rank',
+			'question',
+			'avaible_answers',
+			'user_answer',
+		]
+
+	def get_avaible_answers(self, obj):
+		qs = obj.related_answer.all()
+		return AnswerForUserSerializer(qs, many=True).data
+
+	def get_user_answer(self, obj, ):
+		request = self.context.get('request')
+		user_id = self.context.get("user_id")
+		qs = UserAnswer.objects.filter(user=user_id, question=obj)
+		return UserChosedAnswer2Serializer(qs, many=True, context={'request': request}).data
+
 
 from account.models import MyUser
 from answer.models import UserGrade
@@ -154,16 +194,18 @@ from answer.models import UserGrade
 # class UserGradeSerializer(serializers.ModelSerializer):
 # 	class Meta:
 # 		model = UserGrade
-# 		fields = ['user']
+# 		fields = ['user']  UserLoggedAnswerListAPIView
 
 class UserListSerializer(serializers.ModelSerializer):
 	grade = serializers.SerializerMethodField(read_only=True)
+	uri_answers = serializers.SerializerMethodField(read_only=True)
 	class Meta:
 		model = MyUser
 		fields = [
 			'id',
 			'username',
 			'email',
+			'uri_answers',
 			'grade',
 		]
 
@@ -171,5 +213,31 @@ class UserListSerializer(serializers.ModelSerializer):
 		grade = obj.related_grade.grade
 		return grade
 
+	def get_uri_answers(self, obj):
+		request = self.context.get('request')
+		return reverse('api-user-grade', kwargs={'id':obj.id}, request=request)
 
 
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+	detail = serializers.SerializerMethodField(read_only=True)
+
+	class Meta:
+		model = MyUser
+		fields = [
+			'id',
+			'username',
+			'email',
+			'detail',
+		]
+
+	def get_avaible_answers(self, obj):
+		qs = obj.related_answer.all()
+		return AnswerForUserSerializer(qs, many=True).data
+
+	def get_detail(self, obj):
+		request = self.context.get('request')
+		user_id = self.context.get("user_id")
+		qs = Question.objects.all()
+		return UserLoggedAnswer2Serializer(qs, many=True, context={'request': request, 'user_id':user_id}).data

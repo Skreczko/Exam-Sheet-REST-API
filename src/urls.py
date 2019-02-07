@@ -13,10 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from rest_framework import routers
 from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
-from answer.api.views import UserListAPIView
+from answer.api.views import UserListGradeAPIView, UserDetailGradeAPIView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +26,7 @@ urlpatterns = [
     path('api/answer/', include('answer.api.urls', namespace ='api-answer')),
     path('api/auth/', include('account.api.urls', namespace='api-account')),
 
-    path('api/grades/', UserListAPIView.as_view()),
+    path('api/grades/', UserListGradeAPIView.as_view()),
+    path('api/grades/<id>/', UserDetailGradeAPIView.as_view(), name='api-user-grade'),
 
 ]

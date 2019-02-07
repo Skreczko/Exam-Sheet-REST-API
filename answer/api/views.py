@@ -4,7 +4,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 
 from answer.models import Answer, UserAnswer
 from question.models import Question
-from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer
+from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer
 from .permissions import IsOwner, IsStaffUser
 
 
@@ -82,7 +82,18 @@ class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 from account.models import MyUser
 from .serializers import UserListSerializer
 
-class UserListAPIView(generics.ListAPIView):
+class UserListGradeAPIView(generics.ListAPIView):
 	permission_classes = [IsStaffUser]
 	queryset = MyUser.objects.all()
 	serializer_class = UserListSerializer
+
+
+
+class UserDetailGradeAPIView(generics.RetrieveAPIView):
+	permission_classes = [IsStaffUser]
+	queryset = MyUser.objects.all()
+	serializer_class = UserDetailSerializer
+	lookup_field = 'id'
+
+	def get_serializer_context(self):
+		return {"user_id": self.kwargs['id']}

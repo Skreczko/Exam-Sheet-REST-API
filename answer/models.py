@@ -30,7 +30,10 @@ class UserGrade(models.Model):
 	def grade(self):
 		total_correct_answers = 0
 		qs = UserAnswer.objects.filter(user=self.user)
-		total_weighting = qs.first().question.total_weighting() or 1
+		if not qs.exists():
+			total_weighting = 0
+		else:
+			total_weighting = qs.first().question.total_weighting()
 		for item in qs:
 			correct_answer = Answer.objects.filter(question=item.question, is_correct=True).first()
 			if item.user_answer_id == correct_answer.id:
