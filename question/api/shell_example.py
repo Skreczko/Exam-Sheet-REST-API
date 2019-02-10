@@ -407,9 +407,15 @@ token_user3 = r_user3.json()['token']
 # print(answer_user3_answer4)
 
 
+""" CHECK PERMISSIONS FOR .../API/GRADES/"""
+headers = {
+    "Content-Type": "application/json",
+    "Authorization": 'JWT ' + token_user1,
+}
 
-
-
+r_user3_answer1 = requests.get('http://127.0.0.1:8000/api/grades/', headers=headers)
+answer = r_user3_answer1.json()
+print(answer)
 
 
 

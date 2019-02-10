@@ -7,6 +7,8 @@ from question.models import Question
 from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer
 from .permissions import IsOwner, IsStaffUser
 
+from account.models import MyUser
+from .serializers import UserListSerializer
 
 class AnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [permissions.IsAdminUser]
@@ -79,21 +81,40 @@ class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 		return self.destroy(request, *args, **kwargs)
 
 
-from account.models import MyUser
-from .serializers import UserListSerializer
+
 
 class UserListGradeAPIView(generics.ListAPIView):
-	permission_classes = [IsStaffUser]
-	queryset = MyUser.objects.all()
+	permission_classes = []
+	queryset = None
 	serializer_class = UserListSerializer
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			return MyUser.objects.all()
+		else:
+			if self.request.user.is_authenticated:
+				return MyUser.objects.filter(username=self.request.user)
+			else:
+				return MyUser.objects.none()
+
+
 
 
 
 class UserDetailGradeAPIView(generics.RetrieveAPIView):
-	permission_classes = [IsStaffUser]
-	queryset = MyUser.objects.all()
+	permission_classes = []
+	queryset = None
 	serializer_class = UserDetailSerializer
 	lookup_field = 'id'
 
 	def get_serializer_context(self):
-		return {"user_id": self.kwargs['id']}
+		return {"user_id": self.kwargs.get('id')}
+
+	def get_queryset(self):
+		if self.request.user.is_staff:
+			return MyUser.objects.all()
+		else:
+			if self.request.user.is_authenticated:
+				return MyUser.objects.filter(username=self.request.user)
+			else:
+				return MyUser.objects.none()

@@ -220,9 +220,8 @@ class UserListSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-
 	detail = serializers.SerializerMethodField(read_only=True)
-
+	grade = serializers.SerializerMethodField(read_only=True)
 	class Meta:
 		model = MyUser
 		fields = [
@@ -230,6 +229,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 			'username',
 			'email',
 			'detail',
+			'grade',
 		]
 
 	def get_avaible_answers(self, obj):
@@ -241,3 +241,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 		user_id = self.context.get("user_id")
 		qs = Question.objects.all()
 		return UserLoggedAnswer2Serializer(qs, many=True, context={'request': request, 'user_id':user_id}).data
+
+	def get_grade(self,obj):
+		grade = obj.related_grade.grade
+		return grade
