@@ -27,7 +27,6 @@ data = {
 r_admin = requests.post(AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
 token_admin = r_admin.json()['token']
 
-
 """	CREATING QUESTIONS	"""
 
 headers = {
@@ -68,7 +67,6 @@ print(answer1)
 print(answer2)
 print(answer3)
 print(answer4)
-
 
 """	CREATING ANSWERS """
 
@@ -208,7 +206,6 @@ print(answer3_5)
 print(answer4_1)
 print(answer4_2)
 
-
 """	CREATING USERS	"""
 
 headers = {
@@ -282,7 +279,6 @@ token_user1 = r_user1.json()['token']
 token_user2 = r_user2.json()['token']
 token_user3 = r_user3.json()['token']
 
-
 """	CREATING ANSWERS - AS TestUser1 - all correct """
 
 headers = {
@@ -322,7 +318,6 @@ print(answer_user1_answer1)
 print(answer_user1_answer2)
 print(answer_user1_answer3)
 print(answer_user1_answer4)
-
 
 """	CREATING ANSWERS - AS TestUser2 - first and last correct """
 

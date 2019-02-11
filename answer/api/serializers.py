@@ -211,7 +211,8 @@ class UserListSerializer(serializers.ModelSerializer):
 
 	def get_grade(self,obj):
 		grade = obj.related_grade.grade
-		return grade
+		all_points = Answer.objects.all().first().question.total_weighting()
+		return str("{}/{}").format(grade, all_points)
 
 	def get_uri_answers(self, obj):
 		request = self.context.get('request')
@@ -244,4 +245,5 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 	def get_grade(self,obj):
 		grade = obj.related_grade.grade
-		return grade
+		all_points = Answer.objects.all().first().question.total_weighting()
+		return str("{}/{}").format(grade,all_points)

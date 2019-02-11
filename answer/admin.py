@@ -34,7 +34,15 @@ class UserAnswerAdmin(admin.ModelAdmin):
 		return obj.user
 
 
+class UserGradeAdmin(admin.ModelAdmin):
+	list_display = ['id', 'user', 'grade']
+	readonly_fields = ['user', 'grade']
+	list_filter = ['grade']
+
+	class Meta:
+		model = UserGrade
+
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(UserAnswer, UserAnswerAdmin)
-admin.site.register(UserGrade, )
+admin.site.register(UserGrade, UserGradeAdmin)
 

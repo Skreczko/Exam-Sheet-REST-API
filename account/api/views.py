@@ -49,7 +49,7 @@ class AuthAPIView(APIView):
 				payload = jwt_payload_handler(user)
 				token = jwt_encode_handler(payload)
 				my_payload = jwt_response_payload_handler(token, user, request=request)
-
+				# print(payload,"\n\n\n\n",token,"\n\n\n\n",my_payload)
 				return Response(my_payload)
 			else:
 				return Response({'detail': 'Invalid credential'}, status=401)
