@@ -36,4 +36,5 @@ class UserAnswerAdmin(admin.ModelAdmin):
 
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(UserAnswer, UserAnswerAdmin)
+admin.site.register(UserGrade, )
 

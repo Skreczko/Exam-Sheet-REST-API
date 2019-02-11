@@ -87,6 +87,8 @@ class UserListGradeAPIView(generics.ListAPIView):
 	permission_classes = []
 	queryset = None
 	serializer_class = UserListSerializer
+	search_fields = ('username',)
+	ordering_fields = ('username', 'email', 'related_grade__grade')
 
 	def get_queryset(self):
 		if self.request.user.is_staff:
