@@ -54,6 +54,13 @@ class QuestionAPITestCase(APITestCase):
 		self.assertEqual(staff_check.is_staff, True)
 		self.assertEqual(no_staff_check.is_staff, False)
 
+
+
+
+	" 						TESTS IN 			.../api/question/ 					"
+
+
+
 	def test_staff_create_question_success(self):
 		self.staff_user()
 		url_question = reverse('question:list')
@@ -65,6 +72,11 @@ class QuestionAPITestCase(APITestCase):
 		self.assertEqual(response_question.status_code, status.HTTP_201_CREATED)
 		self.assertEqual(Question.objects.all().count(), 1)
 		self.assertEqual(response_question.data.get('uri'), 'http://testserver/api/question/1/')
+		url_detail = 'http://testserver' + reverse(
+			'question:detail',
+			kwargs={'id': Question.objects.get(question="How are you?").id}
+		)
+		self.assertEqual(response_question.data.get('uri'), url_detail)
 
 
 	def test_no_staff_create_question_failed(self):
@@ -102,17 +114,76 @@ class QuestionAPITestCase(APITestCase):
 		self.assertEqual(response_question.status_code, status.HTTP_400_BAD_REQUEST)
 		self.assertEqual(response_question.data.get('rank')[0], '"10000" is not a valid choice.')
 
-	def test_staff_create_same_question(self):
+	def test_staff_create_question_field_failed(self):
 		self.staff_user()
+		url_question = reverse('question:list')
+		data_question = {
+			"rank": 10000
+		}
+		response_question = self.client.post(url_question, data_question, format='json')
+		# print (response_question.data)
+		self.assertEqual(response_question.status_code, status.HTTP_400_BAD_REQUEST)
+		self.assertEqual(response_question.data.get('question')[0], 'This field is required.')
+
+
+
+
+	" 						TESTS IN 			.../api/question/<id>/ 					"
+
+	def create_correct_question(self):
 		url_question = reverse('question:list')
 		data_question = {
 			"question": "How are you?",
 			"rank": 3
 		}
-		response_question = self.client.post(url_question, data_question, format='json')
-		self.assertEqual(response_question.status_code, status.HTTP_201_CREATED)
-		response_question2 = self.client.post(url_question, data_question, format='json')
-		self.assertEqual(response_question2.status_code, status.HTTP_400_BAD_REQUEST)
-		self.assertEqual(response_question2.data.get('question')[0], "You try to add the same question second time.")
+		self.client.post(url_question, data_question, format='json')
+		return Question.objects.get(question="How are you?").id
+
+	def test_update_correct_question_success(self):
+		self.staff_user()
+		question_id = self.create_correct_question()
+		url_question = reverse('question:detail', kwargs={'id':question_id})
+		data_question_updated = {
+			"question": "How are you UPDATED?",
+			"rank": 3
+		}
+		response_update = self.client.put(url_question, data_question_updated, format='json')
+		self.assertEqual(response_update.status_code, status.HTTP_200_OK)
+		self.assertEqual(response_update.data.get('question'), "How are you UPDATED?")
+		self.assertEqual(response_update.data.get('rank'), 3)
+		self.assertEqual(Question.objects.get(id=question_id).question, "How are you UPDATED?")
+
+	def test_update_correct_rank_success(self):
+		self.staff_user()
+		question_id = self.create_correct_question()
+		url_question = reverse('question:detail', kwargs={'id':question_id})
+		data_question_updated = {
+			"question": "How are you?",
+			"rank": 1
+		}
+		response_update = self.client.put(url_question, data_question_updated, format='json')
+		self.assertEqual(response_update.status_code, status.HTTP_200_OK)
+		self.assertEqual(response_update.data.get('rank'), 1)
+		self.assertEqual(Question.objects.get(id=question_id).rank, 1)
+
+	def test_update_correct_rank_failed(self):
+		self.staff_user()
+		question_id = self.create_correct_question()
+		url_question = reverse('question:detail', kwargs={'id':question_id})
+		data_question_updated = {
+			"rank": 1
+		}
+		response_update = self.client.put(url_question, data_question_updated, format='json')
+		self.assertEqual(response_update.status_code, status.HTTP_400_BAD_REQUEST)
+		# print (response_update.data['question'][0])
+		self.assertEqual(response_update.data.get('question')[0], 'This field is required.')
 
 
+	def test_delete_correct_question_success(self):
+		self.staff_user()
+		question_id = self.create_correct_question()
+		url_question = reverse('question:detail', kwargs={'id': question_id})
+		response_delete = self.client.delete(url_question, format='json')
+		# print(response_delete.data)
+		self.assertEqual(response_delete.status_code, status.HTTP_204_NO_CONTENT)
+		self.assertEqual(Question.objects.filter(id=question_id).exists(), False)
