@@ -12,6 +12,8 @@ class QuestionListAPIView(generics.ListCreateAPIView):
 	# authentication_classes 	= [SessionAuthentication]
 	queryset 				= Question.objects.all()
 	serializer_class 		= QuestionSerializer
+	search_fields = ('question',)
+	ordering_fields = ('rank', 'question',)
 
 	def get_queryset(self):
 		request = self.request

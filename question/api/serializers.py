@@ -24,6 +24,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 	def validate_question(self, value):
 		if str(value)[-1] != '?':
 			raise serializers.ValidationError("Please add '?' to your question.")
+		elif Question.objects.filter(question__iexact=value).exists():
+			raise serializers.ValidationError("You try to add the same question second time.")
 		else:
 			return value
 
