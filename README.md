@@ -42,14 +42,14 @@ http://127.0.0.1:8000/api/grades/
 http://127.0.0.1:8000/api/question/
 1) staff - question list +  creating 
 
-http://127.0.0.1:8000/api/question/<id>
+http://127.0.0.1:8000/api/question/1/
 1) staff - updating, deleting question
 
 http://127.0.0.1:8000/api/answer/admin/
 
 1) staff - list of answers with related questions + creating 
 
-http://127.0.0.1:8000/api/answer/admin/<id>
+http://127.0.0.1:8000/api/answer/admin/1/
 
 1) staff - updating, deleting answer
 
@@ -57,7 +57,7 @@ http://127.0.0.1:8000/api/answer/summary/
 
 1) user - list of question with owner answer + creating answer
 
-http://127.0.0.1:8000/api/answer/summary/<id>/
+http://127.0.0.1:8000/api/answer/summary/1/
 
 1) user - answer detail - updating + deleting
 
