@@ -24,13 +24,7 @@ class AnswerListAPIView(generics.ListCreateAPIView):
 
 
 
-# class AnswerListAPIView(generics.ListCreateAPIView):
-# 	permission_classes 		= [permissions.IsAdminUser]
-# 	# authentication_classes 	= [SessionAuthentication]
-# 	serializer_class 		= AnswerSerializer
-#
-# 	def get_queryset(self, *args, **kwargs):
-# 		return Answer.objects.all()
+
 
 
 

@@ -10,6 +10,7 @@ For Staff user:
 2) CRUD multiple Answers for each Question with marking one as true 
 3) Showing all Users and their grades (i.e. 7/10) - possibility to user filtering and ordering by grades and usernames with urls related to answers detail for each question
 4) Showing which User answer was incorrect
+5) Staff user cannot get grade or edit, update or delete users answers
 
 
 For Users (students):
@@ -51,5 +52,14 @@ http://127.0.0.1:8000/api/answer/admin/
 http://127.0.0.1:8000/api/answer/admin/<id>
 
 1) staff - updating, deleting answer
+
+http://127.0.0.1:8000/api/answer/summary/
+
+1) user - list of question with owner answer + creating answer
+
+http://127.0.0.1:8000/api/answer/summary/<id>/
+
+1) user - answer detail - updating + deleting
+
 
 

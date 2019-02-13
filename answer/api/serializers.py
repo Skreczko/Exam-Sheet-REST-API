@@ -29,11 +29,12 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class AnswerDetailSerializer(serializers.ModelSerializer):
-	question = serializers.
+	related_question = serializers.PrimaryKeyRelatedField(source='question.question', read_only=True)
 	class Meta:
 		model = Answer
 		fields = [
 			'id',
+			'related_question',
 			'answer_question',
 			'is_correct',
 		]
@@ -44,14 +45,9 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
 		model = Question
 		fields = [
 			'id',
-			# 'question_uri',
 			'question',
 			'rank',
-
 			'answer',
-
-			# 'answer',
-			# 'is_correct',
 		]
 
 	def get_answer(self, obj):
@@ -218,12 +214,7 @@ class UserLoggedAnswer2Serializer(serializers.ModelSerializer):
 
 
 from account.models import MyUser
-from answer.models import UserGrade
 
-# class UserGradeSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = UserGrade
-# 		fields = ['user']  UserLoggedAnswerListAPIView
 
 class UserListSerializer(serializers.ModelSerializer):
 	grade = serializers.SerializerMethodField(read_only=True)
