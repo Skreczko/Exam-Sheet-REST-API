@@ -13,6 +13,18 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
+class IsOwnerNoStaff(permissions.BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_staff:
+            return False
+        else:
+            return obj.user == request.user
+
 class IsStaffUser(permissions.BasePermission):
     """
     Allows access only to admin users.

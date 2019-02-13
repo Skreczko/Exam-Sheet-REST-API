@@ -5,7 +5,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from answer.models import Answer, UserAnswer
 from question.models import Question
 from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer
-from .permissions import IsOwner, IsStaffUser
+from .permissions import IsOwner, IsOwnerNoStaff
 
 from account.models import MyUser
 from .serializers import UserListSerializer
@@ -53,9 +53,11 @@ class UserAnswerListAPIView(generics.ListCreateAPIView):
 		serializer.save(user=self.request.user)
 
 class UserLoggedAnswerListAPIView(generics.ListCreateAPIView):
-	permission_classes 		= [IsOwner]
+	permission_classes 		= [IsOwnerNoStaff]
 	queryset = Question.objects.all()
 	serializer_class = None
+	search_fields = ('question', 'user__username')
+	ordering_fields = ('question', 'user__username', 'rank')
 
 	def get_serializer_class(self):
 		if self.request.method == 'POST':

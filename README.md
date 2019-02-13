@@ -20,3 +20,36 @@ For Users (students):
 -added permissions, JWT Authorization, ordering and filtering
 
 -added unit tests
+
+
+URLS
+-
+http://127.0.0.1:8000/api/auth/
+1) Login site
+
+http://127.0.0.1:8000/api/auth/register/
+1) Register user
+
+http://127.0.0.1:8000/api/auth/jwt/
+1) Obtaining login token
+
+http://127.0.0.1:8000/api/grades/ 
+
+1) staff - list of users with their grades. URL to Question list with related user answer (+ description if correct)
+2) user - getting grade with URL to Question list with related answer
+
+http://127.0.0.1:8000/api/question/
+1) staff - question list +  creating 
+
+http://127.0.0.1:8000/api/question/<id>
+1) staff - updating, deleting question
+
+http://127.0.0.1:8000/api/answer/admin/
+
+1) staff - list of answers with related questions + creating 
+
+http://127.0.0.1:8000/api/answer/admin/<id>
+
+1) staff - updating, deleting answer
+
+
