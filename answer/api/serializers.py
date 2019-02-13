@@ -11,29 +11,58 @@ from question.api.serializers import QuestionReadOnlySerializer
 User = get_user_model()
 
 class AnswerSerializer(serializers.ModelSerializer):
-	question_field = serializers.PrimaryKeyRelatedField(source='question.question', read_only=True)
-	question_uri = serializers.SerializerMethodField(read_only=True)
 	answer_uri = serializers.SerializerMethodField(read_only=True)
 
 	class Meta:
 		model = Answer
 		fields = [
 			'id',
-			'question_uri',
 			'question',
-			'question_field',
 			'answer_uri',
 			'answer_question',
 			'is_correct',
 		]
 
-	def get_question_uri(self, obj):
+	def get_answer_uri(self, obj):
 		request = self.context.get('request')
-		return reverse("question:detail", kwargs={'id': obj.question.id}, request=request)
+		return reverse('api-answer:admin-detail', kwargs={'id': obj.id}, request=request)
+
+
+class AnswerDetailSerializer(serializers.ModelSerializer):
+	question = serializers.
+	class Meta:
+		model = Answer
+		fields = [
+			'id',
+			'answer_question',
+			'is_correct',
+		]
+
+class QuestionAnswerSerializer(serializers.ModelSerializer):
+	answer = serializers.SerializerMethodField(read_only=True)
+	class Meta:
+		model = Question
+		fields = [
+			'id',
+			# 'question_uri',
+			'question',
+			'rank',
+
+			'answer',
+
+			# 'answer',
+			# 'is_correct',
+		]
+
+	def get_answer(self, obj):
+		request = self.context.get('request')
+		qs = Answer.objects.filter(question=obj)
+		return AnswerSerializer(qs, many=True, context={'request': request}).data
 
 	def get_answer_uri(self, obj):
 		request = self.context.get('request')
 		return reverse("answer:admin-detail", kwargs={'id': obj.id}, request=request)
+
 
 
 class AnswerForUserSerializer(serializers.ModelSerializer):

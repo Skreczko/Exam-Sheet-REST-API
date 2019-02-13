@@ -4,7 +4,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 
 from answer.models import Answer, UserAnswer
 from question.models import Question
-from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer
+from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer, QuestionAnswerSerializer, AnswerDetailSerializer
 from .permissions import IsOwner, IsOwnerNoStaff
 
 from account.models import MyUser
@@ -13,18 +13,32 @@ from .serializers import UserListSerializer
 class AnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [permissions.IsAdminUser]
 	# authentication_classes 	= [SessionAuthentication]
-	serializer_class 		= AnswerSerializer
+	serializer_class 		= None
+	queryset 				= Question.objects.all()
 
-	def get_queryset(self, *args, **kwargs):
-		request = self.request
-		return Answer.objects.all()
+	def get_serializer_class(self):
+		if self.request.method == 'POST':
+			return AnswerSerializer
+		elif self.request.method == 'GET':
+			return QuestionAnswerSerializer
+
+
+
+# class AnswerListAPIView(generics.ListCreateAPIView):
+# 	permission_classes 		= [permissions.IsAdminUser]
+# 	# authentication_classes 	= [SessionAuthentication]
+# 	serializer_class 		= AnswerSerializer
+#
+# 	def get_queryset(self, *args, **kwargs):
+# 		return Answer.objects.all()
+
 
 
 class AnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
 	permission_classes 		= [permissions.IsAdminUser]
 	# authentication_classes = [SessionAuthentication]
 	# queryset = Answer.objects.all()
-	serializer_class 		= AnswerSerializer
+	serializer_class 		= AnswerDetailSerializer
 	lookup_field 			= 'id'
 
 	def get_queryset(self, *args, **kwargs):
