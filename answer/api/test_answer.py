@@ -132,29 +132,26 @@ class AnswerAPITestCase(APITestCase):
 		self.assertEqual(response_answer_delete.status_code, status.HTTP_204_NO_CONTENT)
 		self.assertEqual(Answer.objects.all().exists(), False)
 
-	def test_getting_UserAnswer_list_as_no_staff(self):
+	def test_getting_UserAnswer_list_as_no_staff_failed(self):
 		answer_false = self.create_staff_answer()
-
 		answer = Answer.objects.all().first()
 		url_update = reverse('answer:list')
-
-		print(self.request.user)
 
 		response_answer_get = self.client.get(url_update,  format='json')
 		# print (response_answer_get.data)
 		self.assertEqual(response_answer_get.status_code, status.HTTP_403_FORBIDDEN)
 		self.assertEqual(response_answer_get.data.get('detail'), 'You do not have permission to perform this action.')
 
-	# def test_getting_UserAnswer_detail_as_no_staff(self):
-	# 	answer_false = self.create_staff_answer()
-	# 	self.staff_user()
-	# 	answer = Answer.objects.all().first()
-	# 	url_update = reverse('answer:detail', kwargs={'id': answer.id})
-	#
-	# 	response_answer_get = self.client.get(url_update,  format='json')
-	# 	# print (response_answer_get.data)
-	# 	self.assertEqual(response_answer_get.status_code, status.HTTP_403_FORBIDDEN)
-	# 	self.assertEqual(response_answer_get.data.get('detail'), 'You do not have permission to perform this action.')
+	def test_getting_UserAnswer_detail_as_no_staff_failed(self):
+		answer_false = self.create_staff_answer()
+		answer = Answer.objects.all().first()
+		print(answer.id)
+		url_update = reverse('answer:detail', kwargs={'id': answer.id})
+
+		response_answer_get = self.client.get(url_update,  format='json')
+		# print (response_answer_get.data)
+		self.assertEqual(response_answer_get.status_code, status.HTTP_403_FORBIDDEN)
+		self.assertEqual(response_answer_get.data.get('detail'), 'You do not have permission to perform this action.')
 
 
 
@@ -163,7 +160,7 @@ class AnswerAPITestCase(APITestCase):
 
 	" 										NO STAFF USER 										"
 
-	def test_getting_answer_list_as_no_staff(self):
+	def test_getting_answer_list_as_no_staff_failed(self):
 		answer_false = self.create_staff_answer()
 		self.no_staff_user()
 		answer = Answer.objects.all().first()
@@ -174,7 +171,7 @@ class AnswerAPITestCase(APITestCase):
 		self.assertEqual(response_answer_get.status_code, status.HTTP_403_FORBIDDEN)
 		self.assertEqual(response_answer_get.data.get('detail'), 'You do not have permission to perform this action.')
 
-	def test_getting_answer_detail_as_no_staff(self):
+	def test_getting_answer_detail_as_no_staff_failed(self):
 		answer_false = self.create_staff_answer()
 		self.no_staff_user()
 		answer = Answer.objects.all().first()
@@ -184,6 +181,11 @@ class AnswerAPITestCase(APITestCase):
 		# print (response_answer_get.data)
 		self.assertEqual(response_answer_get.status_code, status.HTTP_403_FORBIDDEN)
 		self.assertEqual(response_answer_get.data.get('detail'), 'You do not have permission to perform this action.')
+
+	def test_creating_user_answer_success(self):
+		pass
+
+
 
 
 

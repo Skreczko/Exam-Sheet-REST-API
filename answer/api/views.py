@@ -67,6 +67,9 @@ class UserLoggedAnswerListAPIView(generics.ListCreateAPIView):
 	search_fields = ('question', 'user__username')
 	ordering_fields = ('question', 'user__username', 'rank')
 
+	def get_serializer_context(self):
+		return {"logged_user": self.request.user, 'request': self.request}
+
 	def get_serializer_class(self):
 		if self.request.method == 'POST':
 			return UserAnswerSerializer

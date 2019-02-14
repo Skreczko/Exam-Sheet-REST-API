@@ -89,16 +89,20 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 		read_only_fields = ['user', 'avaible_answer',]
 
 	def validate(self, data):
+		logged_user = self.context.get('logged_user')
 		question = data.get('question', None)
 		user_answer_id = data.get('user_answer_id', None)
-		avaible_answers = Answer.objects.filter(question=question)
-		answ_ids=[]
-		for x in avaible_answers:
-			answ_ids.append(x.id)
-		if user_answer_id in answ_ids:
-			return data
+		if not UserAnswer.objects.filter(question=question, user = logged_user).exists():
+			avaible_answers = Answer.objects.filter(question=question)
+			answ_ids=[]
+			for x in avaible_answers:
+				answ_ids.append(x.id)
+			if user_answer_id in answ_ids:
+				return data
+			else:
+				raise serializers.ValidationError('Answer is not available for this question.')
 		else:
-			raise serializers.ValidationError('Answer is not available for this question.')
+			raise serializers.ValidationError('You cannot add more than one answer per question.')
 
 	def get_avaible_answer(self, obj):
 		question = obj.question
