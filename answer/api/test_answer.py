@@ -243,6 +243,43 @@ class AnswerStaffAPITestCase(APITestCase):
 		self.assertEqual(response_answer_create_failed.status_code, status.HTTP_400_BAD_REQUEST)
 		self.assertEqual(response_answer_create_failed.data.get('non_field_errors')[0], 'You cannot add more than one answer per question.')
 
+	def test_creating_user_answer_failed(self):
+		self.create_question()
+		self.no_staff_user(nickname="OtherNoStaff")
+		question = Question.objects.all().first()
+		url_user_answer = reverse('answer:list')
+		data_user_answer_create = {
+			'question'			: question.id,
+			'user_answer_id'	: 100,
+		}
+		response_answer_create_failed = self.client.post(url_user_answer, data_user_answer_create, format='json')
+		# print(response_answer_create_failed.data)
+		self.assertEqual(response_answer_create_failed.status_code, status.HTTP_400_BAD_REQUEST)
+		self.assertEqual(response_answer_create_failed.data.get('non_field_errors')[0], 'Answer is not available for this question.')
+
+	def test_updating_user_answer_success(self):
+		self.user_answer_create()
+		question = Question.objects.all().first()
+		user_answer = UserAnswer.objects.get(user__username='NoStaffUser')
+		url_user_answer = reverse('answer:detail', kwargs={'id':user_answer.id})
+		data_user_answer_update = {
+			'question'			: question.id,
+			'user_answer_id'	: 1,
+		}
+		response_edit = self.client.put(url_user_answer, data_user_answer_update, format='json')
+		self.assertEqual(response_edit.status_code, status.HTTP_200_OK)
+
+	def test_deleting_user_answer_success(self):
+		self.user_answer_create()
+		user_answer = UserAnswer.objects.get(user__username='NoStaffUser')
+		url_user_answer = reverse('answer:detail', kwargs={'id':user_answer.id})
+
+		response_delete = self.client.delete(url_user_answer, format='json')
+		self.assertEqual(response_delete.status_code, status.HTTP_204_NO_CONTENT)
+		self.assertEqual(UserAnswer.objects.filter(user__username='NoStaffUser').exists(), False)
+
+
+
 
 
 
