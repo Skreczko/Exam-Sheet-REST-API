@@ -1,18 +1,14 @@
 from rest_framework import generics, mixins, permissions
-from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-
 from answer.models import Answer, UserAnswer
 from question.models import Question
-from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer, QuestionAnswerSerializer, AnswerDetailSerializer
+from .serializers import AnswerSerializer, UserAnswerSerializer, UserLoggedAnswerSerializer, UserDetailSerializer, \
+	QuestionAnswerSerializer, AnswerDetailSerializer
 from .permissions import IsOwner, IsOwnerNoStaff
-
 from account.models import MyUser
 from .serializers import UserListSerializer
 
 class AnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [permissions.IsAdminUser]
-	# authentication_classes 	= [SessionAuthentication]
 	serializer_class 		= None
 	queryset 				= Question.objects.all()
 
@@ -23,15 +19,8 @@ class AnswerListAPIView(generics.ListCreateAPIView):
 			return QuestionAnswerSerializer
 
 
-
-
-
-
-
 class AnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
 	permission_classes 		= [permissions.IsAdminUser]
-	# authentication_classes = [SessionAuthentication]
-	# queryset = Answer.objects.all()
 	serializer_class 		= AnswerDetailSerializer
 	lookup_field 			= 'id'
 
@@ -47,7 +36,6 @@ class AnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, gen
 
 class UserAnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [IsOwner]
-	# authentication_classes 	= [SessionAuthentication]
 	queryset = UserAnswer.objects.all()
 	serializer_class = UserAnswerSerializer
 
@@ -59,6 +47,7 @@ class UserAnswerListAPIView(generics.ListCreateAPIView):
 
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
+
 
 class UserLoggedAnswerListAPIView(generics.ListCreateAPIView):
 	permission_classes 		= [IsOwnerNoStaff]
@@ -82,7 +71,6 @@ class UserLoggedAnswerListAPIView(generics.ListCreateAPIView):
 
 class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
 	permission_classes = [IsOwner]
-	# authentication_classes = []
 	queryset = UserAnswer.objects.all()
 	serializer_class = UserAnswerSerializer
 	lookup_field = 'id'
@@ -92,8 +80,6 @@ class UserAnswerDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin,
 
 	def delete(self, request, *args, **kwargs):
 		return self.destroy(request, *args, **kwargs)
-
-
 
 
 class UserListGradeAPIView(generics.ListAPIView):
@@ -111,9 +97,6 @@ class UserListGradeAPIView(generics.ListAPIView):
 				return MyUser.objects.filter(username=self.request.user)
 			else:
 				return MyUser.objects.none()
-
-
-
 
 
 class UserDetailGradeAPIView(generics.RetrieveAPIView):

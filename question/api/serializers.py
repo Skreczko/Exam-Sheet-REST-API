@@ -35,7 +35,6 @@ class QuestionReadOnlySerializer(serializers.ModelSerializer):
 			'id',
 			'rank',
 			'question',
-			# 'avaible_answers'
 		]
 		read_only_field=['rank']
 
@@ -46,6 +45,5 @@ class QuestionReadOnlySerialize2(serializers.ModelSerializer):
 			'id',
 			'rank',
 			'question',
-			# 'avaible_answers'
 		]
 

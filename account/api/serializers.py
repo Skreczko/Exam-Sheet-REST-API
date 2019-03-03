@@ -1,16 +1,11 @@
-from django.contrib.auth import get_user_model
-from django.db.models import Q
 from rest_framework import serializers
 from account.models import MyUser
 
-
 from rest_framework_jwt.settings import api_settings
-
 
 jwt_payload_handler             = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler              = api_settings.JWT_ENCODE_HANDLER
 jwt_response_payload_handler    = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
-
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,7 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
 		]
 
 
-
 class UserLoginSerializer(serializers.ModelSerializer):
 	password 	= serializers.CharField(style={'input_type': 'password'}, write_only=True)
 	class Meta:
@@ -32,6 +26,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 			'username',
 			'password',
 		]
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	password 	= serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -93,5 +88,3 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 		user.is_staff = False
 		user.save()
 		return user
-
-

@@ -1,18 +1,15 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from django.conf import settings
 from answer.models import Answer, UserAnswer
-from question.api.serializers import QuestionReadOnlySerializer
+from account.models import MyUser
 from question.models import Question
 from account.api.serializers import UserSerializer
 from django.contrib.auth import get_user_model
-from question.api.serializers import QuestionReadOnlySerializer
 
 User = get_user_model()
 
 class AnswerSerializer(serializers.ModelSerializer):
 	answer_uri = serializers.SerializerMethodField(read_only=True)
-
 	class Meta:
 		model = Answer
 		fields = [
@@ -39,6 +36,7 @@ class AnswerDetailSerializer(serializers.ModelSerializer):
 			'is_correct',
 		]
 
+
 class QuestionAnswerSerializer(serializers.ModelSerializer):
 	answer = serializers.SerializerMethodField(read_only=True)
 	class Meta:
@@ -60,7 +58,6 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
 		return reverse("answer:admin-detail", kwargs={'id': obj.id}, request=request)
 
 
-
 class AnswerForUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Answer
@@ -74,7 +71,6 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 	user_answer_id = serializers.IntegerField()
 	user = UserSerializer(many=False, read_only=True)
 	avaible_answer = serializers.SerializerMethodField(read_only=True)
-
 	class Meta:
 		model = UserAnswer
 		fields = [
@@ -110,29 +106,10 @@ class UserAnswerSerializer(serializers.ModelSerializer):
 		return AnswerForUserSerializer(qs, many=True).data
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-http://127.0.0.1:8000/api/answer/list/
-"""
-
 class UserChosedAnswerSerializer(serializers.HyperlinkedModelSerializer):
 	user_answer_id = serializers.IntegerField()
 	user = UserSerializer(User, many=False, read_only=True)
 	uri = serializers.HyperlinkedIdentityField(view_name='answer:detail', read_only=True, lookup_field='id')
-
 	class Meta:
 		model = UserAnswer
 		fields = [
@@ -150,8 +127,6 @@ class UserChosedAnswerSerializer(serializers.HyperlinkedModelSerializer):
 class UserChosedAnswer2Serializer(serializers.HyperlinkedModelSerializer):
 	user_answer_id = serializers.IntegerField()
 	is_correct = serializers.SerializerMethodField(read_only=True)
-
-
 	class Meta:
 		model = UserAnswer
 		fields = [
@@ -164,11 +139,9 @@ class UserChosedAnswer2Serializer(serializers.HyperlinkedModelSerializer):
 		return Answer.objects.get(id=obj.user_answer_id).is_correct
 
 
-
 class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 	avaible_answers = serializers.SerializerMethodField(read_only=True)
 	user_answer = serializers.SerializerMethodField(read_only=True)
-
 	class Meta:
 		model = Question
 		fields = [
@@ -192,10 +165,10 @@ class UserLoggedAnswerSerializer(serializers.ModelSerializer):
 			qs = UserAnswer.objects.filter(user=user, question=obj)
 		return UserChosedAnswerSerializer(qs, many=True, context={'request': request}).data
 
+
 class UserLoggedAnswer2Serializer(serializers.ModelSerializer):
 	avaible_answers = serializers.SerializerMethodField(read_only=True)
 	user_answer = serializers.SerializerMethodField(read_only=True)
-
 	class Meta:
 		model = Question
 		fields = [
@@ -215,9 +188,6 @@ class UserLoggedAnswer2Serializer(serializers.ModelSerializer):
 		user_id = self.context.get("user_id")
 		qs = UserAnswer.objects.filter(user=user_id, question=obj)
 		return UserChosedAnswer2Serializer(qs, many=True, context={'request': request}).data
-
-
-from account.models import MyUser
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -241,7 +211,6 @@ class UserListSerializer(serializers.ModelSerializer):
 	def get_uri_answers(self, obj):
 		request = self.context.get('request')
 		return reverse('api-user-grade', kwargs={'id':obj.id}, request=request)
-
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
