@@ -52,10 +52,6 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'account.MyUser'
 
 MIDDLEWARE = [
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,13 +129,13 @@ USE_TZ = True
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # # )
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 from src.restconf.main import *
