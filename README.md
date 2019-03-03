@@ -3,6 +3,8 @@ REST API web application that solves the problem of preparing and evaluating exa
 
 **To create an example database, please run script EXAMPLE_DATABASE.py - remember to change admin credentials**
 
+Application uses JWT tokens to authorization.
+
 Web application contains:
 
 For Staff user:
@@ -25,39 +27,39 @@ For Users (students):
 
 URLS
 -
-http://127.0.0.1:8000/api/auth/
+https://exam-sheet.herokuapp.com/api/auth/
 1) Login site
 
-http://127.0.0.1:8000/api/auth/register/
+https://exam-sheet.herokuapp.com/api/auth/register/
 1) Register user
 
-http://127.0.0.1:8000/api/auth/jwt/
+https://exam-sheet.herokuapp.com/api/auth/jwt/
 1) Obtaining login token
 
-http://127.0.0.1:8000/api/grades/ 
+https://exam-sheet.herokuapp.com/api/grades/ 
 
 1) staff - list of users with their grades. URL to Question list with related user answer (+ description if correct)
 2) user - getting grade with URL to Question list with related answer
 
-http://127.0.0.1:8000/api/question/
+https://exam-sheet.herokuapp.com/api/question/
 1) staff - question list +  creating 
 
-http://127.0.0.1:8000/api/question/1/
+https://exam-sheet.herokuapp.com/api/question/1/
 1) staff - updating, deleting question
 
-http://127.0.0.1:8000/api/answer/admin/
+https://exam-sheet.herokuapp.com/api/answer/admin/
 
 1) staff - list of answers with related questions + creating 
 
-http://127.0.0.1:8000/api/answer/admin/1/
+https://exam-sheet.herokuapp.com/api/answer/admin/1/
 
 1) staff - updating, deleting answer
 
-http://127.0.0.1:8000/api/answer/summary/
+https://exam-sheet.herokuapp.com/api/answer/summary/
 
 1) user - list of question with owner answer + creating answer
 
-http://127.0.0.1:8000/api/answer/summary/1/
+https://exam-sheet.herokuapp.com/api/answer/summary/1/
 
 1) user - answer detail - updating + deleting
 
