@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
 from answer.api.views import UserListGradeAPIView, UserDetailGradeAPIView
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -30,3 +32,7 @@ urlpatterns = [
     path('api/grades/<id>/', UserDetailGradeAPIView.as_view(), name='api-user-grade'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
