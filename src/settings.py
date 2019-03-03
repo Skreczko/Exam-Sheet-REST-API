@@ -26,9 +26,9 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['exam-sheet.herokuapp.com', 'localhost:8000']
+ALLOWED_HOSTS = ['exam-sheet.herokuapp.com', 'localhost:8000', '127.0.0.1']
 
 
 # Application definition
@@ -127,6 +127,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 
 from src.restconf.main import *
