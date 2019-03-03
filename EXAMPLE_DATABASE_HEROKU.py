@@ -4,7 +4,7 @@ import requests
 
 """	LOGIN AS ADMIN	"""
 
-AUTH_ENDPOINT = 'http://127.0.0.1:8000/api/auth/'
+AUTH_ENDPOINT = 'https://exam-sheet.herokuapp.com/api/auth/'
 REFRESH_ENDPOINT = AUTH_ENDPOINT + 'refresh/'
 
 
@@ -49,10 +49,10 @@ data_question4 = {
 }
 
 
-r_create_question1 = requests.post('http://127.0.0.1:8000/api/question/', data=json.dumps(data_question1), headers=headers)
-r_create_question2 = requests.post('http://127.0.0.1:8000/api/question/', data=json.dumps(data_question2), headers=headers)
-r_create_question3 = requests.post('http://127.0.0.1:8000/api/question/', data=json.dumps(data_question3), headers=headers)
-r_create_question4 = requests.post('http://127.0.0.1:8000/api/question/', data=json.dumps(data_question4), headers=headers)
+r_create_question1 = requests.post('https://exam-sheet.herokuapp.com/api/question/', data=json.dumps(data_question1), headers=headers)
+r_create_question2 = requests.post('https://exam-sheet.herokuapp.com/api/question/', data=json.dumps(data_question2), headers=headers)
+r_create_question3 = requests.post('https://exam-sheet.herokuapp.com/api/question/', data=json.dumps(data_question3), headers=headers)
+r_create_question4 = requests.post('https://exam-sheet.herokuapp.com/api/question/', data=json.dumps(data_question4), headers=headers)
 answer1 = r_create_question1.json()
 answer2 = r_create_question2.json()
 answer3 = r_create_question3.json()
@@ -157,32 +157,32 @@ data_answer4_2 = {
     "is_correct": True
 }
 
-r_create_answer1_1 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer1_1), headers=headers)
-r_create_answer1_2 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer1_2), headers=headers)
-r_create_answer1_3 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer1_3), headers=headers)
+r_create_answer1_1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer1_1), headers=headers)
+r_create_answer1_2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer1_2), headers=headers)
+r_create_answer1_3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer1_3), headers=headers)
 answer1_1 = r_create_answer1_1.json()
 answer1_2 = r_create_answer1_2.json()
 answer1_3 = r_create_answer1_3.json()
-r_create_answer2_1 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer2_1), headers=headers)
-r_create_answer2_2 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer2_2), headers=headers)
-r_create_answer2_3 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer2_3), headers=headers)
-r_create_answer2_4 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer2_4), headers=headers)
+r_create_answer2_1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer2_1), headers=headers)
+r_create_answer2_2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer2_2), headers=headers)
+r_create_answer2_3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer2_3), headers=headers)
+r_create_answer2_4 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer2_4), headers=headers)
 answer2_1 = r_create_answer2_1.json()
 answer2_2 = r_create_answer2_2.json()
 answer2_3 = r_create_answer2_3.json()
 answer2_4 = r_create_answer2_4.json()
-r_create_answer3_1 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer3_1), headers=headers)
-r_create_answer3_2 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer3_2), headers=headers)
-r_create_answer3_3 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer3_3), headers=headers)
-r_create_answer3_4 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer3_4), headers=headers)
-r_create_answer3_5 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer3_5), headers=headers)
+r_create_answer3_1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer3_1), headers=headers)
+r_create_answer3_2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer3_2), headers=headers)
+r_create_answer3_3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer3_3), headers=headers)
+r_create_answer3_4 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer3_4), headers=headers)
+r_create_answer3_5 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer3_5), headers=headers)
 answer3_1 = r_create_answer3_1.json()
 answer3_2 = r_create_answer3_2.json()
 answer3_3 = r_create_answer3_3.json()
 answer3_4 = r_create_answer3_4.json()
 answer3_5 = r_create_answer3_5.json()
-r_create_answer4_1 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer4_1), headers=headers)
-r_create_answer4_2 = requests.post('http://127.0.0.1:8000/api/answer/admin/', data=json.dumps(data_answer4_2), headers=headers)
+r_create_answer4_1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer4_1), headers=headers)
+r_create_answer4_2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/admin/', data=json.dumps(data_answer4_2), headers=headers)
 answer4_1 = r_create_answer4_1.json()
 answer4_2 = r_create_answer4_2.json()
 print(answer1_1)
@@ -228,9 +228,9 @@ data_create_user3 = {
     "confirm_password": 	"TestUser3",
 }
 
-r_create_user1 = requests.post('http://127.0.0.1:8000/api/auth/register/', data=json.dumps(data_create_user1), headers=headers)
-r_create_user2 = requests.post('http://127.0.0.1:8000/api/auth/register/', data=json.dumps(data_create_user2), headers=headers)
-r_create_user3 = requests.post('http://127.0.0.1:8000/api/auth/register/', data=json.dumps(data_create_user3), headers=headers)
+r_create_user1 = requests.post('https://exam-sheet.herokuapp.com/api/auth/register/', data=json.dumps(data_create_user1), headers=headers)
+r_create_user2 = requests.post('https://exam-sheet.herokuapp.com/api/auth/register/', data=json.dumps(data_create_user2), headers=headers)
+r_create_user3 = requests.post('https://exam-sheet.herokuapp.com/api/auth/register/', data=json.dumps(data_create_user3), headers=headers)
 answer1 = r_create_user1.json()
 answer2 = r_create_user2.json()
 answer3 = r_create_user3.json()
@@ -240,7 +240,7 @@ print(answer3)
 
 """	LOGIN AS TestUser1, TestUser2, TestUser3	"""
 
-AUTH_ENDPOINT = 'http://127.0.0.1:8000/api/auth/'
+AUTH_ENDPOINT = 'https://exam-sheet.herokuapp.com/api/auth/'
 REFRESH_ENDPOINT = AUTH_ENDPOINT + 'refresh/'
 
 
@@ -300,10 +300,10 @@ data_user1_answer4 = {
     "user_answer_id": 14,
 }
 
-r_user1_answer1 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user1_answer1), headers=headers)
-r_user1_answer2 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user1_answer2), headers=headers)
-r_user1_answer3 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user1_answer3), headers=headers)
-r_user1_answer4 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user1_answer4), headers=headers)
+r_user1_answer1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user1_answer1), headers=headers)
+r_user1_answer2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user1_answer2), headers=headers)
+r_user1_answer3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user1_answer3), headers=headers)
+r_user1_answer4 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user1_answer4), headers=headers)
 answer_user1_answer1 = r_user1_answer1.json()
 answer_user1_answer2 = r_user1_answer2.json()
 answer_user1_answer3 = r_user1_answer3.json()
@@ -340,10 +340,10 @@ data_user2_answer4 = {
     "user_answer_id": 14,
 }
 
-r_user2_answer1 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user2_answer1), headers=headers)
-r_user2_answer2 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user2_answer2), headers=headers)
-r_user2_answer3 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user2_answer3), headers=headers)
-r_user2_answer4 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user2_answer4), headers=headers)
+r_user2_answer1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user2_answer1), headers=headers)
+r_user2_answer2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user2_answer2), headers=headers)
+r_user2_answer3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user2_answer3), headers=headers)
+r_user2_answer4 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user2_answer4), headers=headers)
 answer_user2_answer1 = r_user2_answer1.json()
 answer_user2_answer2 = r_user2_answer2.json()
 answer_user2_answer3 = r_user2_answer3.json()
@@ -381,10 +381,10 @@ data_user3_answer4 = {
     "user_answer_id": 13,
 }
 
-r_user3_answer1 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user3_answer1), headers=headers)
-r_user3_answer2 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user3_answer2), headers=headers)
-r_user3_answer3 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user3_answer3), headers=headers)
-r_user3_answer4 = requests.post('http://127.0.0.1:8000/api/answer/summary/', data=json.dumps(data_user3_answer4), headers=headers)
+r_user3_answer1 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user3_answer1), headers=headers)
+r_user3_answer2 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user3_answer2), headers=headers)
+r_user3_answer3 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user3_answer3), headers=headers)
+r_user3_answer4 = requests.post('https://exam-sheet.herokuapp.com/api/answer/summary/', data=json.dumps(data_user3_answer4), headers=headers)
 answer_user3_answer1 = r_user3_answer1.json()
 answer_user3_answer2 = r_user3_answer2.json()
 answer_user3_answer3 = r_user3_answer3.json()
@@ -401,6 +401,6 @@ headers = {
     "Authorization": 'JWT ' + token_user1,
 }
 
-r_user3_answer1 = requests.get('http://127.0.0.1:8000/api/grades/', headers=headers)
+r_user3_answer1 = requests.get('https://exam-sheet.herokuapp.com/api/grades/', headers=headers)
 answer = r_user3_answer1.json()
 print(answer)
