@@ -1,11 +1,5 @@
-# from rest_framework.renderers import JSONRenderer
-# from rest_framework.parsers import JSONParser
 import json
 import requests
-import os
-#
-# from question.api.serializers import QuestionSerializer
-
 
 
 """	LOGIN AS ADMIN	"""
