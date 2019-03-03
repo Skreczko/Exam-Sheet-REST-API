@@ -19,8 +19,8 @@ headers = {
 }
 
 data = {
-	'username': 'Skreczko',		#change your username
-	'password': 'Lol123',		#change your password
+	'username': 'Admin1',		#change your username
+	'password': 'Admin1',		#change your password
 
 }
 
@@ -410,84 +410,3 @@ headers = {
 r_user3_answer1 = requests.get('http://127.0.0.1:8000/api/grades/', headers=headers)
 answer = r_user3_answer1.json()
 print(answer)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# headers2 = {
-#     "Content-Type": "application/json",
-# 	#"Authorization": 'JWT ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IlNrcmVjemtvIiwiZXhwIjoxNTQ4NTM2OTU3LCJlbWFpbCI6ImRhd2lkLnNrcmVjemtvQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNTQ4NTM2NjU3fQ.B7TEAbIDNe7JJEbi70SN9m7FaIxtJpy_fRsN2C67sR0',
-# }
-# ENDPOINT = 'http://127.0.0.1:8000/api/answer/correct/'
-#
-# r = requests.get(ENDPOINT, headers=headers2)
-# token = r.json()
-# print(json.dumps(data))
-# print(token)
-
-
-
-
-
-# refresh_data = {
-#     'token': token
-# }
-#
-# new_response = requests.post(REFRESH_ENDPOINT, data=json.dumps(refresh_data), headers=headers)
-# new_token = new_response.json()['token']
-#
-# print(new_token)
-
-
-
-# ENDPOINT = 'http://127.0.0.1:8000/api/answer/correct/'
-#
-# headers = {
-#     "Content-Type": "application/json",
-#     "Authorization": "JWT " + token,
-# }
-# data = json.dumps({
-# 	'question': 'from shell?',
-# 	'rank': 3
-# })
-#
-#
-# r = requests.get(ENDPOINT,  headers=headers)
-# print(r.text)
-
-
-
-
-
-# r2 = requests.get(REFRESH_ENDPOINT, data=json.dumps(data2), headers=headers)
-# token2 = r2.json()['token']
-# print(token2)
-# print(token==token2)
-
-
-
-#
-# from answer.api.serializers import UserAnswerSerializer
-#
-# data = {
-# 	'question': 2,
-# 	'user_answer_id': 4
-#
-# }
-#
-# serializer = UserAnswerSerializer(data=data)
-# serializer.is_valid()
